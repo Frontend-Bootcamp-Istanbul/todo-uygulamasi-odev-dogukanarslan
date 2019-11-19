@@ -73,6 +73,19 @@ button.remove-all{
   text-decoration: line-through;
 }
 
+.important{
+  color: red;
+  font-weight: bold;
+}
+
+.visible{
+  display: none;
+}
+
+.invisible{
+  display: block;
+}
+
 .todo-item {
   cursor: pointer;
   margin-bottom: 10px;

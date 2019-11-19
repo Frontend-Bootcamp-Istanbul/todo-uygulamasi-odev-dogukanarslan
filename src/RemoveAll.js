@@ -1,11 +1,22 @@
 import React from 'react';
 
-
 class RemoveAll extends React.Component {
+  /*
+  <button className="remove-all" onClick={() => {this.props.showOnlyImportant()}}>
+    Önemlileri Göster
+  </button>
+  */
     render() {
-        return <button className="remove-all" onClick={() => {this.props.onRemoveAll()}}>
-                Tümünü Sil
-        </button>
+        return (
+          <div>
+            <button className="remove-all" onClick={() => {this.props.onRemoveAll()}}>
+              Tümünü Sil
+            </button>
+
+
+
+          </div>
+      )
     }
 }
 

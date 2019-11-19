@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import TodoList from "./TodoList";
 import AddTodo from "./AddTodo";
 import RemoveAll from "./RemoveAll";
+import Instructions from "./Instructions";
 import "./App.css";
 
 
@@ -16,6 +17,8 @@ class App extends Component {
     this.removeTodo = this.removeTodo.bind(this);
     this.removeAllTodos = this.removeAllTodos.bind(this);
     this.toggleCompleteStatus = this.toggleCompleteStatus.bind(this);
+    this.highlight = this.highlight.bind(this);
+    //this.showOnlyImportant = this.showOnlyImportant.bind(this);
   }
 
   componentDidMount() {
@@ -33,14 +36,19 @@ class App extends Component {
   addTodo(newTodo){
       // Parametre olarak inputtan yeni eklenen değeri "newTodo" olarak alıyoruz.
       // State'i mutate etmemek için rest operatörü ile bir kopyalama yapıp yeni todoyu concat ile ekliyoruz.
+      if (newTodo.length <5){
+        newTodo.length === 0 ? alert("Bu kısım boş bırakılamaz") : alert("5 ve üzeri karakter girmelisiniz");
+        return;
+      } else{
       this.setState({
         todos: [...this.state.todos].concat([
-            { content: newTodo, id: Math.random(), checked: false}
+            { content: newTodo, id: Math.random(), checked: false, important: false,visible:true}
         ])
+
       }, () => {
           // Todo ekrana eklendikten sonra bunu localstorage'a da ekliyoruz.
         window.localStorage.setItem("todos", JSON.stringify(this.state.todos))
-      })
+      })}
   }
 
   removeTodo(id){
@@ -56,6 +64,18 @@ class App extends Component {
           window.localStorage.setItem("todos", JSON.stringify(this.state.todos));
       });
   }
+
+/*
+  showOnlyImportant(){
+    this.state.todos.map(todo => {if (todo.important === true){
+      console.log(todo.visible);
+      todo.visible = false;
+      console.log(todo.visible)
+      }
+    })
+  }
+  */
+
 
   removeAllTodos(){
     this.setState({
@@ -85,6 +105,22 @@ class App extends Component {
       });
   }
 
+  highlight(id,important){
+    const newArr = this.state.todos.map(todo =>{
+      if (id === todo.id){
+        let currentTodo = {...todo};
+        currentTodo.important = !currentTodo.important;
+        return currentTodo;
+      } else{
+        return todo;
+      }
+    });
+    this.setState({
+      todos: newArr}, ()=> {
+        window.localStorage.setItem("todos",JSON.stringify(this.state.todos));
+    })
+  }
+
   render(){
     return (
         <div className="App" id="todo">
@@ -92,21 +128,26 @@ class App extends Component {
                 <h3>Todo Ekle / Sil</h3>
                 <div>
                     <AddTodo   onTodoAdd={this.addTodo} />
-                    <RemoveAll onRemoveAll={this.removeAllTodos}/>
+                    <RemoveAll showOnlyImportant={this.showOnlyImportant} onRemoveAll={this.removeAllTodos}/>
+                    <Instructions />
                 </div>
             </div>
 
             <TodoList
                 title="Tamamlanmamış Todolar"
-                todos={[]}
+                todos={this.state.todos.filter(item => item.checked !== true)}
                 onTodoRemove={this.removeTodo}
-                onCheckedToggle={this.toggleCompleteStatus} />
+                onCheckedToggle={this.toggleCompleteStatus}
+                highlight={this.highlight} />
 
             <TodoList
                 title="Tamamlanmış Todolar"
-                todos={[]}
+                todos={this.state.todos.filter(item => item.checked === true)}
                 onTodoRemove={this.removeTodo}
-                onCheckedToggle={this.toggleCompleteStatus} />
+                onCheckedToggle={this.toggleCompleteStatus}
+                highlight={this.highlight} />
+
+
         </div>
     );
   }
