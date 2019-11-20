@@ -27,7 +27,6 @@ class AddTodo extends React.Component {
     }
 
     render() {
-        const {onAdd} = this.props;
         return <form
             onSubmit={this.addTodo}>
             <input

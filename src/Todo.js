@@ -1,7 +1,7 @@
 import React from 'react';
 
 function Todo(props) {
-    const {content, id, checked, important,visible} = props;
+    const {content, id, checked, important} = props;
     let itemClass= "todo-item";
     if(checked){
         itemClass += " checked";
@@ -9,13 +9,6 @@ function Todo(props) {
     if(important){
       itemClass += " important";
     }
-    /*
-    if(!visible){
-      itemClass += " visible"
-    } else {
-      itemClass += " invisible"
-    }
-    */
 
     return (
         <div className={itemClass} onClick={() => {props.onCheckedToggle(id);}}>

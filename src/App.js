@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import TodoList from "./TodoList";
 import AddTodo from "./AddTodo";
+import PredefinedDays from "./PredefinedDays";
 import RemoveAll from "./RemoveAll";
 import Instructions from "./Instructions";
 import "./App.css";
@@ -10,7 +11,8 @@ class App extends Component {
   constructor(props){
     super(props);
     this.state = {
-        todos: []
+        todos: [],
+        todosImportant: []
     };
 
     this.addTodo = this.addTodo.bind(this);
@@ -18,7 +20,9 @@ class App extends Component {
     this.removeAllTodos = this.removeAllTodos.bind(this);
     this.toggleCompleteStatus = this.toggleCompleteStatus.bind(this);
     this.highlight = this.highlight.bind(this);
-    //this.showOnlyImportant = this.showOnlyImportant.bind(this);
+    this.showOnlyImportant = this.showOnlyImportant.bind(this);
+    this.verimliGun = this.verimliGun.bind(this);
+    this.tembelGun = this.tembelGun.bind(this);
   }
 
   componentDidMount() {
@@ -41,9 +45,9 @@ class App extends Component {
         return;
       } else{
       this.setState({
-        todos: [...this.state.todos].concat([
-            { content: newTodo, id: Math.random(), checked: false, important: false,visible:true}
-        ])
+        todos: [...this.state.todos,
+            { content: newTodo, id: Math.random(), checked: false, important: false}
+        ]
 
       }, () => {
           // Todo ekrana eklendikten sonra bunu localstorage'a da ekliyoruz.
@@ -65,17 +69,12 @@ class App extends Component {
       });
   }
 
-/*
-  showOnlyImportant(){
-    this.state.todos.map(todo => {if (todo.important === true){
-      console.log(todo.visible);
-      todo.visible = false;
-      console.log(todo.visible)
-      }
-    })
-  }
-  */
 
+  showOnlyImportant(){
+    const newArray = this.state.todos.filter(todo => {
+      return todo.important === true})
+      this.setState({todos: newArray},()=>window.localStorage.setItem("todos",JSON.stringify(this.state.todos)))
+}
 
   removeAllTodos(){
     this.setState({
@@ -121,6 +120,28 @@ class App extends Component {
     })
   }
 
+  verimliGun(){
+    this.setState({
+      todos: [
+        {content: "Erken Kalk", id: Math.random(), checked: false, important: false},
+        {content: "Kitap Oku", id: Math.random(), checked: false, important: false},
+        {content: "Yeni bilgiler öğren", id: Math.random(), checked: false, important: false},
+        {content: "Kendini Geliştir", id: Math.random(), checked: false, important: false},
+      ]
+    },()=>window.localStorage.setItem("todos",JSON.stringify(this.state.todos)));
+  }
+
+  tembelGun(){
+    this.setState({
+      todos: [
+        {content: "Yat", id: Math.random(), checked: false, important: false},
+        {content: "Biraz daha yat", id: Math.random(), checked: false, important: false},
+        {content: "Daha fazla yat", id: Math.random(), checked: false, important: false},
+        {content: "En fazla yat", id: Math.random(), checked: false, important: false},
+      ]
+    },()=>window.localStorage.setItem("todos",JSON.stringify(this.state.todos)));
+  }
+
   render(){
     return (
         <div className="App" id="todo">
@@ -128,6 +149,7 @@ class App extends Component {
                 <h3>Todo Ekle / Sil</h3>
                 <div>
                     <AddTodo   onTodoAdd={this.addTodo} />
+                    <PredefinedDays verimliGun={this.verimliGun} tembelGun={this.tembelGun}/>
                     <RemoveAll showOnlyImportant={this.showOnlyImportant} onRemoveAll={this.removeAllTodos}/>
                     <Instructions />
                 </div>

@@ -69,6 +69,23 @@ button.remove-all{
   cursor: pointer;
 }
 
+.buttons{
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.button{
+  padding: 0;
+  margin: 0;
+  border: none;
+  padding: 0 10px;
+  height: 44px;
+  color: #fff;
+  background-color: #7d3232;
+  border-radius: 10px;
+}
+
 .checked {
   text-decoration: line-through;
 }
@@ -76,14 +93,6 @@ button.remove-all{
 .important{
   color: red;
   font-weight: bold;
-}
-
-.visible{
-  display: none;
-}
-
-.invisible{
-  display: block;
 }
 
 .todo-item {
@@ -96,7 +105,7 @@ button.remove-all{
   font-weight: bold;
   display: inline-block;
   margin-left: 10px;
-  padding: 5px;
+  padding: 5px 8px;
   color: #fff;
   border-radius: 5px;
 }
