@@ -5,7 +5,7 @@
 2. "Tamamlanmış Todolar" ve "Tamamlanmamış Todolar" başlıkları yanına her listenin kaç todo içerdiğini yazalım.
 Örneğin başlık "Tamamlanmış Todolar (5)" gibi olsun.
 
-![](http://g.recordit.co/BlrlEyLwwT.gif)
+![Gif resmi](http://g.recordit.co/BlrlEyLwwT.gif)
 
 ## İpucu
 1.Kodda göreceğiniz üzere 2 Todolist'in componentinin de "todos" propu boş array. Bunları istediğimiz koşullara uyan arraylerle doldurmamız gerekiyor.
